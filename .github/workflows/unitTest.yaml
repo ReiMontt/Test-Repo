@@ -15,6 +15,8 @@ jobs:
         with:
           godot-version: '4.3'
           paths: 'res://Test'
+          warnings-as-errors: true
+          publish-report: false
     
   export-windows:
     name: Windows Export
