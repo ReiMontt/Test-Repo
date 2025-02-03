@@ -14,3 +14,4 @@ jobs:
         with:
           godot-version: ${{ env.GODOT_VERSION }} 
           paths: ${{ env.TEST_PATH }}
+          publish-report: false
