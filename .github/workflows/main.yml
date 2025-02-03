@@ -17,7 +17,7 @@ jobs:
         uses: ceceppa/godot-gut-ci@main
         with:
           godot_version: 4.3
-          gut_params: -d --path "$PWD" -ginclude_subdirs -gdir=res://Test/Unit -gexit -gprefix=test_ 
+          gut_params: -ginclude_subdirs -gdir=res://Test/Unit -gprefix=test_ 
     
   export-windows:
     name: Windows Export
