@@ -13,7 +13,7 @@ jobs:
       - name: Checkout the reset branch
         uses: actions/checkout@v3
         with:
-          ref: reset
+          ref: main
           fetch-depth: 0  # Ensure full history is available
 
       - name: Fetch "What's been added.txt" from merged PR branch
@@ -33,4 +33,4 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add "What's been added.txt"
           git commit -m "Appended updates from PR #${{ github.event.pull_request.number }}"
-          git push origin reset
+          git push origin main
