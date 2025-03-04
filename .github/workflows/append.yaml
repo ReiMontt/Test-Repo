@@ -1,5 +1,8 @@
 name: Append updates after PR merge to reset
 
+permissions:
+  contents: write  # Allows the workflow to push commits
+
 on:
   pull_request:
     types: [closed]  # Runs only when a PR is closed (merged)
