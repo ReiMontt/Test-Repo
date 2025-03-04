@@ -25,7 +25,8 @@ jobs:
 
       - name: Append new updates to log file
         run: |
-          echo "---- Update from latest push ($(date)) ----" >> updates_log.txt
+          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
+          echo "---- Update from branch: $BRANCH_NAME ----" >> updates_log.txt
           cat "What's been added.txt" >> updates_log.txt
           echo "" >> updates_log.txt  # Add newline for formatting
 
