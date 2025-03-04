@@ -6,29 +6,33 @@ permissions:
 on:
   push:
     branches:
-      - main
+      - main  # Runs when something is pushed to main
 
 jobs:
   append-update:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the reset branch
+      - name: Checkout the main branch
         uses: actions/checkout@v3
         with:
           ref: main
           fetch-depth: 0  # Ensure full history is available
 
-      - name: Append PR’s "What's been added.txt"
+      - name: Ensure log file exists
         run: |
-          echo "" >> "What's been added.txt"  # Add a newline for formatting
-          cat "What's been added.txt" >> merged_updates.txt  # Save the new content
-          mv merged_updates.txt "What's been added.txt"  # Replace original file
+          touch updates_log.txt  # Create if it doesn't exist
 
-      - name: Commit and push changes to reset
+      - name: Append new updates to log file
+        run: |
+          echo "---- Update from latest push ($(date)) ----" >> updates_log.txt
+          cat "What's been added.txt" >> updates_log.txt
+          echo "" >> updates_log.txt  # Add newline for formatting
+
+      - name: Commit and push changes
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add "What's been added.txt"
+          git add updates_log.txt
           git commit -m "Appended updates from latest push"
           git push origin main
