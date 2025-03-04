@@ -19,16 +19,16 @@ jobs:
           ref: main
           fetch-depth: 0  # Ensure full history is available
 
-      - name: Append PR’s "Updates/What's been added.txt"
+      - name: Append PR’s "What's been added.txt"
         run: |
-          echo "" >> "Updates/What's been added.txt"  # Add a newline for formatting
-          cat "Updates/What's been added.txt" >> merged_updates.txt  # Save the new content
-          mv merged_updates.txt "Updates/What's been added.txt"  # Replace original file
+          echo "" >> "What's been added.txt"  # Add a newline for formatting
+          cat "What's been added.txt" >> merged_updates.txt  # Save the new content
+          mv merged_updates.txt "What's been added.txt"  # Replace original file
 
       - name: Commit and push changes to reset
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add "Updates/What's been added.txt"
+          git add "What's been added.txt"
           git commit -m "Appended updates from latest push"
           git push origin main
