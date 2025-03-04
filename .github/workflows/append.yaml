@@ -7,7 +7,7 @@ on:
 jobs:
   append-update:
     runs-on: ubuntu-latest
-    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'reset'  # Ensures PR is merged into reset
+    if: github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main'
 
     steps:
       - name: Checkout the reset branch
