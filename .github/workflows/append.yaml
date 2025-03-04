@@ -16,7 +16,7 @@ jobs:
       - name: Checkout the reset branch
         uses: actions/checkout@v3
         with:
-          ref: reset
+          ref: main
           fetch-depth: 0  # Ensure full history is available
 
       - name: Append PR’s "Updates/What's been added.txt"
@@ -31,4 +31,4 @@ jobs:
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
           git add "Updates/What's been added.txt"
           git commit -m "Appended updates from latest push"
-          git push origin reset
+          git push origin main
