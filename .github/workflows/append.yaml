@@ -22,7 +22,7 @@ jobs:
       - name: Check for changes in "What's been added.txt"
         id: changes_check
         run: |
-          git fetch origin reset
+          git fetch origin main
           if git diff --quiet origin/main -- "What's been added.txt"; then
             echo "CHANGES_DETECTED=false" >> $GITHUB_ENV
           else
