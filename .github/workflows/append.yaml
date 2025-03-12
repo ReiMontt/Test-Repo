@@ -1,12 +1,12 @@
-name: Append updates after PR merge to reset
+name: Updates the update log to new pushes
 
 permissions:
-  contents: write  # Allows the workflow to push commits
+  contents: write  
 
 on:
   push:
     branches:
-      - main  # Runs when something is pushed to main
+      - reset
 
 jobs:
   append-update:
@@ -16,24 +16,37 @@ jobs:
       - name: Checkout the main branch
         uses: actions/checkout@v3
         with:
-          ref: main
-          fetch-depth: 0  # Ensure full history is available
+          ref: reset
+          fetch-depth: 0  
 
-      - name: Ensure log file exists
+      - name: Check for changes in "What's been added.txt"
+        id: changes_check
+        run: |
+          git fetch origin reset
+          if git diff --quiet origin/reset -- "What's been added.txt"; then
+            echo "CHANGES_DETECTED=false" >> $GITHUB_ENV
+          else
+            echo "CHANGES_DETECTED=true" >> $GITHUB_ENV
+          fi
+
+      - name: Check if log file exists
+        if: env.CHANGES_DETECTED == 'true'
         run: |
           touch updates_log.txt  # Create if it doesn't exist
 
-      - name: Append new updates to log file
+      - name: Append new updates to the log file
+        if: env.CHANGES_DETECTED == 'true'
         run: |
-          BRANCH_NAME=$(git rev-parse --abbrev-ref HEAD)
-          echo "---- Update from branch: $BRANCH_NAME ----" >> updates_log.txt
+          export TZ=Asia/Manila
+          echo "---- Update from latest push ($(date)) ----" >> updates_log.txt
           cat "What's been added.txt" >> updates_log.txt
           echo "" >> updates_log.txt  # Add newline for formatting
 
       - name: Commit and push changes
+        if: env.CHANGES_DETECTED == 'true'
         run: |
           git config --global user.name "github-actions[bot]"
           git config --global user.email "github-actions[bot]@users.noreply.github.com"
-          git add updates_log.txt
-          git commit -m "Appended updates from latest push"
-          git push origin main
+          git add -f updates_log.txt
+          git commit -m "Updated update log"
+          git push origin reset
