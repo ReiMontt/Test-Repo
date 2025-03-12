@@ -16,7 +16,7 @@ jobs:
       - name: Checkout the main branch
         uses: actions/checkout@v3
         with:
-          ref: reset
+          ref: main
           fetch-depth: 0  
 
       - name: Check for changes in "What's been added.txt"
